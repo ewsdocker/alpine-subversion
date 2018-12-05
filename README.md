@@ -1,22 +1,21 @@
-# EarthWalkSoftware/alpine-svn
+# EarthWalkSoftware/alpine-svn  
 
-### AlpineLinux + Subversion + Apache 2 + WebDav
+### AlpineLinux + Subversion + Apache 2 + WebDav  
 
-Subversion via an Apache2 server running apache2-webdav in a very small AlpineLinux docker-container.
+Subversion via an Apache2 server running apache2-webdav in a very small AlpineLinux docker-container.  
 
-_____________________
+## Under construction - not ready for testing!  
 
-#### Get the latest docker image from Docker Hub: 
+____  
+#### Get the latest docker image from Docker Hub:  
 
-  https://hub.docker.com/r/earthwalksoftware/alpine-svn/.
+  https://hub.docker.com/r/earthwalksoftware/alpine-svn/.  
 
-_____________________
-
+____  
 For details about the scripts, and how to customize the docker image and source, visit  
 
 https://github.com/EarthWalkSoftware/alpine-svn/wiki  
 
-_____________________
-
-by Jay Wheeler, EarthWalk Software
-2017-08-16.
+____  
+by Jay Wheeler, EarthWalk Software  
+2017-08-16.  
