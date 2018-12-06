@@ -56,13 +56,20 @@ ENV LMSBUILD_PACKAGE="ewsdocker/alpine-base:3.8.1 (AlpineLinux + Subversion + Ap
 
 # =========================================================================
 
+ENV SVN_REPO=
+ENV SVN_NAME=
+ENV SVN_PASS=
+ENV SVN_HTML=
+
+# =========================================================================
+
 RUN apk update \
  && apk upgrade \
- && add apache2 \
-        apache2-utils \
-        apache2-webdav \
-        mod_dav_svn \
-        subversion \
+ && apk add apache2 \
+            apache2-utils \
+            apache2-webdav \
+            mod_dav_svn \
+            subversion \
  && mkdir -p /run/apache2 \
  && rm -rf /var/cache/apk/* \
  && printf "${LMSBUILD_DOCKER} (${LMSBUILD_PACKAGE}), %s @ %s\n" `date '+%Y-%m-%d'` `date '+%H:%M:%S'` >> /etc/ewsdocker-builds.txt 
@@ -74,8 +81,8 @@ COPY scripts/. /
 # =========================================================================
 
 RUN chmod -R 775 /usr/local/bin \
- && chmod +x /usr/bin/lms/subversion.sh \
- && ln -s /usr/bin/lms/subversion.sh /usr/bin/runsvn 
+ && chmod +x /usr/bin/lms/start-subversion.sh \
+ && ln -s /usr/bin/lms/start-subversion.sh /usr/bin/runsvn 
 
 # =========================================================================
 
