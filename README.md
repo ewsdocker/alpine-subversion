@@ -30,7 +30,7 @@ ____
 
 **ewsdocker/alpine-subversion:3.8.1**
   
-    docker run --rm \
+        docker run --rm \
                -v ${HOME}/bin:/userbin \
                -v ${HOME}/.local:/usrlocal \
                -e LMS_BASE="${HOME}/.local" \
@@ -38,7 +38,6 @@ ____
                -v ${HOME}/.config/docker/alpine-subversion-3.8.1:/root \
                --name=alpine-subversion-3.8.1 \
            ewsdocker/alpine-subversion:3.8.1 lms-setup-alpine  
-
 ____  
 
 #### Running the installed scripts  
@@ -55,15 +54,18 @@ ____
   
 The following _docker run_ command creates and starts a client container. It is automatically installed by the _lms-setup-alpine_ script, above:
 
-    docker run -it \
-               --rm \
-               --network=pkgnet \
+    docker run -d \
+               --restart unless-stopped \
+               --hostname="alpine-subversion" \
+               --dns-search="internet.lan" \
+               -p 90:80 \
                -v /etc/localtime:/etc/localtime:ro \
-               -v ${HOME}/source:/source \
-               -v ${HOME}/workspace-alpine-subversion-latest:/workspace \
-               --mount source=pkgcache,target=/pkgcache \
-               --name=alpine-subversion-latest \
-           ewsdocker/alpine-subversion:latest  
+               -v ${HOME}/.config/docker/alpine-subversion-latest/workspace:/workspace \
+               -e SVN_REPO=project \
+               -e SVN_NAME=jay \
+               -e SVN_PASS=MurPhy22 \
+               --name=alpine-subversion \
+           ewsdocker/alpine-subversion 
 
 To create and run the container, enter the following command on the console command-line:
 
@@ -72,15 +74,17 @@ To create and run the container, enter the following command on the console comm
 ____  
 **ewsdocker/alpine-subversion:3.8.1**
   
-    docker run -it \
-               --rm \
-               --network=pkgnet \
+    docker run -d \
+               --restart unless-stopped \
                -v /etc/localtime:/etc/localtime:ro \
-               -v ${HOME}/source:/source \
-               -v ${HOME}/workspace-alpine-subversion-3.8.1:/workspace \
-               --mount source=pkgcache,target=/pkgcache \
+               -v ${HOME}/.config/docker/alpine-subversion-3.8.1/workspace:/workspace \
+               -e SVN_NAME=jay \
+               -e SVN_PASS=MurPhy22 \
+               -e SVN-REPO=project \
+               -p 90:80 \
                --name=alpine-subversion-3.8.1 \
-           ewsdocker/alpine-subversion:3.8.1  
+           ewsdocker/alpine-subversion:3.8.1 
+
 
 To create and run the container, the following should work from the command-line:
 

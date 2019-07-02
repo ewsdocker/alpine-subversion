@@ -90,19 +90,3 @@ function lmsSetupSubversion()
      return 0
 }
 
-# =========================================================================
-
-declare status=0
-
-setupApacheSvn "${SVN_REPO}" "${SVN_HTML}" "${SVN_USER}" "${SVN_PASS}"
-status=$?
-
-[[ ${status} -eq 0 ]] || 
- {
- 	lmsconDisplay "Setup Apache-SVN has failed: ${status}"
- 	exit ${status}
- }
-
-httpd -D FOREGROUND
-
-exit $?

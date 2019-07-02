@@ -2,7 +2,7 @@
 # =========================================================================
 # =========================================================================
 #
-#	subversion.sh
+#	start-subversion.sh
 #	  Start subversion
 #
 # =========================================================================
@@ -12,7 +12,7 @@
 # @copyright © 2018. EarthWalk Software.
 # @license Licensed under the GNU General Public License, GPL-3.0-or-later.
 # @package ewsdocker/alpine-subversion
-# @subpackage subversion
+# @subpackage start-subversion
 #
 # =========================================================================
 #
@@ -38,24 +38,28 @@
 # =========================================================================
 # =========================================================================
 
-declare status=0
+[[ -z "$SVN_REPO" ]] ||
+{
+    [[ -d "/svn/$SVN_REPO" ]] ||
+     {
+     	svnadmin create /svn/$SVN_REPO
+     	[[ $? -eq 0 ]] || exit 1
+     	
+     	chgrp -R apache /svn/$SVN_REPO
+     	chmod -R 775 /svn/$SVN_REPO
+     }
+}
 
-# =========================================================================
+[[ -d "/svn/template" ]] || mkdir -p /svn/template/{trunk,tags,branches}
 
-. /usr/local/lib/lms-alpine/lmsconDisplay-0.0.1.sh
-. /usr/local/lib/lms-alpine/lmsSetupSubversion-0.0.1.sh
+[[ -n "$SVN_USER"   &&  -n "$SVN_PASS" ]] && htpasswd -bc /etc/apache2/conf.d/davsvn.htpasswd $SVN_USER $SVN_PASS
 
-# =========================================================================
-
-lmsSetupSubversion "${SVN_REPO}" "${SVN_HTML}" "${SVN_USER}" "${SVN_PASS}"
-status=$?
-
-[[ ${status} -eq 0 ]] || 
- {
- 	lmsconDisplay "Setup Apache-SVN has failed: ${status}"
- 	exit ${status}
- }
+[[ -z "$SVN_HTML" ]] ||
+{
+    rm -f /var/www/localhost/htdocs/index.html
+    cp /svn/$SVN_HTML/index.html /var/www/localhost/htdocs/index.html
+}
 
 httpd -D FOREGROUND
 
-exit $?
+exit 0
